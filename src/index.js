@@ -5,7 +5,7 @@ const { PORT } = require("./config/serverConfig");
 const connect = require("./config/database");
 
 const app = express();
-const { User } = require("./model/index");
+
 const startServer = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,12 +15,6 @@ const startServer = () => {
 
     await connect();
     console.log("MongoDB connected");
-
-    const data = await User.create({
-      userEmail: "temp@dsf.com",
-      password: "hello",
-    });
-    console.log(data);
   });
 };
 
