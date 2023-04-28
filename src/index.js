@@ -6,7 +6,6 @@ const connect = require("./config/database");
 const apiRoutes = require("./routes/index");
 
 const app = express();
-const router = express.Router();
 
 const startServer = () => {
   app.use(bodyParser.json());
