@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
-const config = dotenv.config();
+dotenv.config();
 
 module.exports = {
   PORT: process.env.PORT,

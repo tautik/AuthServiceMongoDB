@@ -43,6 +43,33 @@ class UserService {
       console.log("Something went wrong in service create");
     }
   }
+  verifyToken(token) {
+    try {
+      const response = jwt.verify(token, "hello");
+      return response;
+    } catch (error) {
+      console.log("Something went wrong in token validation");
+      throw error;
+    }
+  }
+
+  async isAuthenticated(token) {
+    try {
+      const response = this.verifyToken(token);
+      if (!response) {
+        throw { error: "Invalid token son" };
+      }
+      const user = await this.userRepository.getByEmail(response.email);
+      if (!user) {
+        throw { error: "No user with the corresponding token exists" };
+      }
+      return user.userEmail;
+      // status -> {email:__,password:__,iat:__,exp:__}
+    } catch (error) {
+      console.log("Something went wrong in the auth process");
+      throw error;
+    }
+  }
 
   async getById(userId) {
     try {
@@ -63,20 +90,10 @@ class UserService {
 
   async createToken(user) {
     try {
-      const result = jwt.sign(user, JWT_KEY, { expiresIn: "1d" });
+      const result = await jwt.sign(user, "hello", { expiresIn: "1d" });
       return result;
     } catch (error) {
       console.log("Something went wrong in token creation");
-      throw error;
-    }
-  }
-
-  verifyToken(token) {
-    try {
-      const response = jwt.verify(token, JWT_KEY);
-      return response;
-    } catch (error) {
-      console.log("Something went wrong in token validation", error);
       throw error;
     }
   }

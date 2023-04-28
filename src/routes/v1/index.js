@@ -6,4 +6,5 @@ const router = express.Router();
 
 router.post("/signup", Validate.validateUserAuth, UserController.signUp);
 router.post("/signin", Validate.validateUserAuth, UserController.signIn);
+router.get("/validate", UserController.ValidateUser);
 module.exports = router;
