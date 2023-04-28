@@ -9,7 +9,7 @@ const signUp = async (req, res) => {
     });
     return res.status(201).json({
       success: true,
-      message: "Successfully created a new user",
+      message: "Successfully created a new user Controller",
       data: response,
       err: {},
     });

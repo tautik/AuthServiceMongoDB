@@ -29,13 +29,8 @@ class UserService {
 
   async create(data) {
     try {
-      console.log(data);
       const user = await this.userRepository.create(data);
-      if (user) {
-        return user;
-      } else {
-        throw new Error("User was not created");
-      }
+      return user;
     } catch (error) {
       console.log("error");
       console.log("Something went wrong in service create");

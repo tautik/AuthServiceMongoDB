@@ -5,10 +5,10 @@ const { SALT } = require("../config/serverConfig");
 const userSchema = mongoose.Schema(
   {
     userEmail: {
-      required: true,
       type: String,
       lowercase: true,
       unique: true,
+      required: [true, "Email required"],
     },
     password: {
       required: true,
@@ -23,6 +23,7 @@ userSchema.pre("save", async function (next) {
   this.password = encryptedPassword;
   next();
 });
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

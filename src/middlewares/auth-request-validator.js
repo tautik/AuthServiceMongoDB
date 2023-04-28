@@ -1,5 +1,16 @@
+const validator = require("validator");
+
 const validateUserAuth = (req, res, next) => {
   //if no email or passsword given then through error
+  if (!validateEmail(req.body.email)) {
+    return res.status(400).json({
+      success: false,
+      data: {},
+      message: "Something went wrong",
+      err: "Please enter correct email format",
+    });
+  }
+
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({
       success: false,
@@ -21,6 +32,9 @@ const validateIsAdminRequest = (req, res, next) => {
     });
   }
   next();
+};
+const validateEmail = (email) => {
+  return validator.isEmail(email);
 };
 module.exports = {
   validateUserAuth,
