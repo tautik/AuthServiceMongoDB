@@ -36,11 +36,11 @@ class UserService {
     try {
       const user = await this.userRepository.create(data);
       //removing password coming in user data
-      delete user[password];
       return user;
     } catch (error) {
       console.log("error");
       console.log("Something went wrong in service create");
+      return error;
     }
   }
   verifyToken(token) {
