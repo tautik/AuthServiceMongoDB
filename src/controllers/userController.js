@@ -25,11 +25,6 @@ const signUp = async (req, res) => {
 };
 const signIn = async (req, res) => {
   try {
-    // const data = {
-    //   email: req.body.email,
-    //   password: req.body.password,
-    // };
-    // const user = await userService.signIn(data);
     const response = await userService.signIn(
       req.body.email,
       req.body.password

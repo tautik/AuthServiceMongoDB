@@ -18,7 +18,6 @@ class UserService {
         plainPassword,
         user.password
       );
-      console.log(passwordsMatch);
       if (!passwordsMatch) {
         console.log("Password doesn't match");
         throw { error: "Incorrect password" };
@@ -26,7 +25,6 @@ class UserService {
 
       //password matched now create jwt token
       const token = this.createToken({ email: email, password: plainPassword });
-      console.log(token);
       return token;
     } catch (error) {
       console.log("Something went wrong in the sign in process");
@@ -37,6 +35,8 @@ class UserService {
   async create(data) {
     try {
       const user = await this.userRepository.create(data);
+      //removing password coming in user data
+      delete user[password];
       return user;
     } catch (error) {
       console.log("error");
