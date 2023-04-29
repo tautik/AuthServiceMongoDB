@@ -29,12 +29,18 @@ const signIn = async (req, res) => {
       req.body.email,
       req.body.password
     );
-    return res.status(200).json({
-      success: true,
-      data: response,
-      err: {},
-      message: "Successfully signed in",
-    });
+    return res
+      .status(200)
+      .cookie("token", response, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        data: response,
+        err: {},
+        message: "Successfully signed in",
+      });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -49,8 +55,18 @@ const signIn = async (req, res) => {
 const ValidateUser = async (req, res) => {
   console.log("Entered validation");
   try {
-    const token = req.headers["x-access-token"];
+    const cookieHeader = req.headers.cookie;
+    const cookieArray = cookieHeader.split("; ");
+    const tokenCookie = cookieArray.find((cookie) =>
+      cookie.startsWith("token=")
+    );
+    const token = tokenCookie.split("=")[1];
+
     const response = await userService.isAuthenticated(token);
+    res.set({
+      "Access-Control-Allow-Origin": "http://localhost:5173",
+      "Access-Control-Allow-Credentials": "true",
+    });
     return res.status(200).json({
       success: true,
       err: {},
@@ -58,6 +74,10 @@ const ValidateUser = async (req, res) => {
       message: "user is authenticated and token is valid",
     });
   } catch (error) {
+    res.set({
+      "Access-Control-Allow-Origin": "http://localhost:5173",
+      "Access-Control-Allow-Credentials": "true",
+    });
     return res.status(500).json({
       message: "Unable to validate token",
       data: {},

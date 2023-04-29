@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema(
     userEmail: {
       type: String,
       lowercase: true,
-      unique: true,
+      unique: [true, "Email must be unique"],
       required: [true, "Email required"],
     },
     password: {
@@ -17,6 +17,14 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.post("save", function (error, doc, next) {
+  if (error.name === "MongoError" && error.code === 11000) {
+    next(new Error("email must be unique"));
+  } else {
+    next(error);
+  }
+});
 
 userSchema.pre("save", async function (next) {
   const encryptedPassword = await bcrypt.hashSync(this.password, SALT);
