@@ -15,6 +15,7 @@ app.use(
     credentials: true,
   })
 );
+
 const startServer = () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));

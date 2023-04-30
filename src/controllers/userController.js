@@ -15,8 +15,8 @@ const signUp = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: "Unable to create user Controller layer",
+    return res.status(409).json({
+      message: "Unable to create user ",
       data: {},
       success: false,
       err: error,

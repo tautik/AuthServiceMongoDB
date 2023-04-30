@@ -34,15 +34,20 @@ class UserService {
 
   async create(data) {
     try {
+      const duplicate = await this.userRepository.getByEmail(data.userEmail);
+      if (duplicate) {
+        console.log("Duplicate entry found");
+        throw new Error("Duplicate entry found");
+      }
       const user = await this.userRepository.create(data);
-      //removing password coming in user data
+      // removing password coming in user data
       return user;
     } catch (error) {
-      console.log("error");
       console.log("Something went wrong in service create");
-      return error;
+      throw error;
     }
   }
+
   verifyToken(token) {
     try {
       const response = jwt.verify(token, "hello");
