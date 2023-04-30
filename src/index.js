@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { PORT } = require("./config/serverConfig");
+const { PORT, baseUrl } = require("./config/serverConfig");
 const connect = require("./config/database");
 const apiRoutes = require("./routes/index");
 
@@ -11,10 +11,16 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: baseUrl ?? "*",
     credentials: true,
   })
 );
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:4173"); // Access Multiple domains via ','
+//   res.setHeader("Access-Control-Allow-Methods", "GET POST PUT PATCH DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 
 const startServer = () => {
   app.use(bodyParser.json());
