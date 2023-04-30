@@ -4,6 +4,10 @@ const { SALT } = require("../config/serverConfig");
 
 const userSchema = mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     userEmail: {
       type: String,
       lowercase: true,

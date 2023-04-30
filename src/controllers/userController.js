@@ -4,6 +4,7 @@ const userService = new UserService();
 const signUp = async (req, res) => {
   try {
     const response = await userService.create({
+      name: req.body.name,
       userEmail: req.body.email,
       password: req.body.password,
     });
@@ -37,7 +38,7 @@ const signIn = async (req, res) => {
       })
       .json({
         success: true,
-        data: response,
+        data: {},
         err: {},
         message: "Successfully signed in",
       });
@@ -47,7 +48,7 @@ const signIn = async (req, res) => {
       message: "Unable to signIn user Controller layer",
       data: {},
       success: false,
-      err: error,
+      err: error.error,
     });
   }
 };
